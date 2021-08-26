@@ -114,13 +114,13 @@ img {vertical-align: middle;}
   <div class="numbertext">1 / 3</div>
      <div>
          <p>
-               <h1>Birth rate vs death rate worldwide</h1>
-                This scene shows the birth rate and death rate (per 1000 people) across countries in the world in<b> 2008 </b>, it shows guide to capture 0 population growth mark.<br/>
-	        Contour map is showing the density of countries in a given area. Towards the center there are more countries in chart as compared to towards very high birth rate or death rate.
-                <i>Data is taken from WDI.</i><br/>
+               <h1>Training Loss per Epoc</h1>
+                This scene shows loss across across batches for Epoc<b> 0 </b>.
+	        Contour map is showing the density of batches near given loss value. Place mouseover data point to check exact value of loss.
+                <i>Data is taken from model1.</i><br/>
          </p>
      </div>
-     <div class="text">"2008"</div>
+     <div class="text">"Epoc 0"</div>
      
 </div>
 
@@ -128,13 +128,14 @@ img {vertical-align: middle;}
   <div class="numbertext">2 / 3</div>
     <div>
 	<p> 
-		<h1>Birth rate vs death rate worldwide</h1>
-                This scene shows the birth rate and death rate (per 1000 people) across countries in the world in <b> 2018 </b>, it shows guide to capture 0 population growth mark.<br/>
-	        In 2018, more countries are moved towards the center of graph. i.e. as compared to 2008 fewer countries have too high positive or negative population growth.
-                <i>Data is taken from WDI.</i><br/>
+		<h1>Training Loss per Epoc</h1>
+	    	This scene shows loss across batches for Epoc<b> 20 </b>.
+	        Contour map is showing the density of batches near given loss value. Place mouseover data point to check exact value of loss.
+                <i>Data is taken from model1.</i><br/>
+                
 	</p>
     </div>
-    <div class="text">2018</div>
+    <div class="text">"Epoc 20"</div>
    
 </div>
 
@@ -142,11 +143,9 @@ img {vertical-align: middle;}
   <div class="numbertext">3 / 3</div>
 	<div>
 	<p> 
-		<h1>Birth rate vs death rate worldwide</h1>
-                This scene shows the birth rate and death rate (per 1000 people) across countries in the world in across 20 years transition period <b>(1998-2018) </b>, it shows guide to capture 0 population growth mark.<br/>
-	        By looking at data starting in 1998 to 2018, it is pretty clear that world is shrinking towards the center i.e. more balanced population growth. And while some countries with birth rate are working on controlling the population by reducing the birth rate.
-	        Some other with higher death rate are reducing their death rate to reach towards zero population growth guide.
-                <i>Data is taken from WDI.</i><br/>
+		<h1>Training Loss per Epoc- Data Animation</h1>
+                This scene shows loss across batches for Epoc starting from <b> Epoc 0 and going to Epoc 120 </b>.
+                <i>Data is taken from model1.</i><br/>
 	</p>
     </div>
   <div class="text">Caption Three</div>
@@ -403,9 +402,9 @@ function update_axis(){
 	  .append("line")
 	  .attr("style", "stroke:black")
 	  .attr("x2", xScale(0))
-	  .attr("x1", xScale(67))
+	  .attr("x1", xScale(70))
 	  .attr("y2", yScale(0))
-	  .attr("y1", yScale(2.0))
+	  .attr("y1", yScale(10))
 	  .attr("stroke-width", 3);
 	
 }
@@ -429,12 +428,12 @@ function load_data(){
             .attr("font-size",8)
 	    .text('0 population growth line');
 	if(slideIndex==1){
-		updateContour(data_preprocessed_2008, "fast");
-		updateScatterplot(data_preprocessed_2008, "fast");
+		updateContour(data_preprocessed_1998, "fast");
+		updateScatterplot(data_preprocessed_1998, "fast");
 	}
 	else if(slideIndex == 2){
-	        updateContour(data_preprocessed_2018, "fast");
-		updateScatterplot(data_preprocessed_2018, "fast");
+	        updateContour(data_preprocessed_2003, "fast");
+		updateScatterplot(data_preprocessed_2003, "fast");
 	}
 	else{
 	     updateContour(data_preprocessed_1998, "fast");
@@ -466,10 +465,10 @@ function init_helper(){
 	    .attr('transform', 'rotate(10)')
 	    .attr('text-anchor', 'begin')
             .attr("font-size",8)
-	    .text('0 population growth line');
+	    .text();
 	
-	createContour(data_preprocessed_2008);
-	createScatterplot(data_preprocessed_2008 );
+	createContour(data_preprocessed_1998);
+	createScatterplot(data_preprocessed_1998 );
 	update_axis();
 	tooltip_available();
 }
