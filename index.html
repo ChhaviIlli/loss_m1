@@ -389,7 +389,7 @@ function update_axis(){
 	    .attr('x', width / 2 + margin)
 	    .attr('y', height+margin+margin)
 	    .attr('text-anchor', 'middle')
-	    .text('Epoc#');
+	    .text('batch#');
 	
 	var g = d3.select("#chart").select("svg").append("g");
 	    g.attr("transform","translate(50,50)").call(y_axis);
