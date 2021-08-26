@@ -209,27 +209,27 @@ async function init(){
 	#                              })
 	data_preprocessed_1998 = pop_data
 	data_preprocessed_1998 = data_preprocessed.filter(function(d){
-				          if(d["epoc#"]=="0"){
+				          if(d["epoc"]=="0"){
         					return d;
 				          }})
 	
 	data_preprocessed_2003 = data_preprocessed.filter(function(d){
-				          if(d["epoc#"]=="20"){
+				          if(d["epoc"]=="20"){
         					return d;
 				          }})
 	
 	data_preprocessed_2008 = data_preprocessed.filter(function(d){
-				          if(d["epoc#"]=="40"){
+				          if(d["epoc"]=="40"){
         					return d;
 				          }})
 	
 	data_preprocessed_2013 = data_preprocessed.filter(function(d){
-				          if(d["MidPeriod"]=="60"){
+				          if(d["epoc"]=="60"){
         					return d;
 				          }})
 	
 	data_preprocessed_2018 = data_preprocessed.filter(function(d){
-				          if(d["MidPeriod"]=="124"){
+				          if(d["epoc"]=="124"){
         					return d;
 				          }})
 	
