@@ -222,7 +222,7 @@ async function init(){
 				          }})
 	
 	data_preprocessed_2018 = data_preprocessed.filter(function(d){
-				          if(d["epoc"]=="124"){
+				          if(d["epoc"]=="120"){
         					return d;
 				          }})
 	
@@ -275,7 +275,7 @@ function createScatterplot(pop_datayear ){
 	    tooltip.style("opacity", 1) }
 
 	  var mousemove = function(d) {
-	    tooltip.html(d.Location)
+	    tooltip.html(d.loss)
 	      .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
 	      .style("top", (d3.mouse(this)[1]) + "px") }
 
@@ -294,7 +294,7 @@ function createScatterplot(pop_datayear ){
 		   .attr("cy",function(d) {return yScale(d.loss);})
 		   .attr("r",4)
 	           .append("title")
-	           .text(d => d.Location)
+	           .text(d => d.loss)
 	    	.on("mouseover", function(){
 			d3.select(this).attr('stroke', 'black').attr('stroke-width',1);})
     		.on("mouseout", function(){
@@ -461,8 +461,8 @@ function init_helper(){
         	    .attr("width", canvas_width )
 	            .attr("height", canvas_height );
 	d3.select("#chart").select("svg").append('text')
-	    .attr('x', xScale(67))
-	    .attr('y', 2.0)
+	    .attr('x', xScale(70))
+	    .attr('y', 10)
 	    .attr('transform', 'rotate(10)')
 	    .attr('text-anchor', 'begin')
             .attr("font-size",8)
