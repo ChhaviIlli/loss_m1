@@ -200,35 +200,36 @@ var data_preprocessed_2013 = null;
 var data_preprocessed_2018 = null;
 async function init(){
 	const pop_data = await d3.csv('WPP2019_Period_Indicators_Medium.csv');
-	const data_preprocessed = pop_data.filter(function(d){
-				          if(d.CBR==0 && d.CDR==0){
-					  }
-		                          else{
-					      return d;
-				          }
-	                              })
+	#const data_preprocessed = pop_data.filter(function(d){
+	#			          if(d.CBR==0 && d.CDR==0){
+	#				  }
+	#	                          else{
+	#				      return d;
+	#			          }
+	#                              })
+	data_preprocessed_1998 = pop_data
 	data_preprocessed_1998 = data_preprocessed.filter(function(d){
-				          if(d["MidPeriod"]=="1998"){
+				          if(d["epoc#"]=="0"){
         					return d;
 				          }})
 	
 	data_preprocessed_2003 = data_preprocessed.filter(function(d){
-				          if(d["MidPeriod"]=="2003"){
+				          if(d["epoc#"]=="20"){
         					return d;
 				          }})
 	
 	data_preprocessed_2008 = data_preprocessed.filter(function(d){
-				          if(d["MidPeriod"]=="2008"){
+				          if(d["epoc#"]=="40"){
         					return d;
 				          }})
 	
 	data_preprocessed_2013 = data_preprocessed.filter(function(d){
-				          if(d["MidPeriod"]=="2013"){
+				          if(d["MidPeriod"]=="60"){
         					return d;
 				          }})
 	
 	data_preprocessed_2018 = data_preprocessed.filter(function(d){
-				          if(d["MidPeriod"]=="2018"){
+				          if(d["MidPeriod"]=="124"){
         					return d;
 				          }})
 	
@@ -238,8 +239,8 @@ async function init(){
 
 function updateScatterplot(pop_datayear, speed){
 	var width=300, height=300;
-	var xScale=d3.scaleLinear().domain([0,50]).range([0,width]);
-	var yScale=d3.scaleLinear().domain([0,25]).range([height,0]);
+	var xScale=d3.scaleLinear().domain([0,67]).range([0,width]);
+	var yScale=d3.scaleLinear().domain([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]).range([height,0]);
 	var circle = d3.select("#chart").select("svg").selectAll("circle")
                         .data(pop_datayear);	
 	circle.exit().remove();//remove unneeded circles
@@ -249,22 +250,22 @@ function updateScatterplot(pop_datayear, speed){
 	if(speed == "fast"){
          circle.transition()
                         .duration(10)
-                        .attr("cx",function(d){return xScale(d.CBR);})
-                        .attr("cy",function(d){return yScale(d.CDR);})
+                        .attr("cx",function(d){return xScale(d.batch#);})
+                        .attr("cy",function(d){return yScale(d.loss);})
                         .attr("r",4);	}
 	else{
 		circle.transition()
                         .duration(5000)
-                        .attr("cx",function(d){return xScale(d.CBR);})
-                        .attr("cy",function(d){return yScale(d.CDR);})
+                        .attr("cx",function(d){return xScale(d.batch#);})
+                        .attr("cy",function(d){return yScale(d.loss);})
                         .attr("r",4);
 	}
 }
 
 function createScatterplot(pop_datayear ){
 	var width=300, height=300;
-	var xScale=d3.scaleLinear().domain([0,50]).range([0,width]);
-	var yScale=d3.scaleLinear().domain([0,25]).range([height,0]);
+	var xScale=d3.scaleLinear().domain([0,67]).range([0,width]);
+	var yScale=d3.scaleLinear().domain([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]).range([height,0]);
 	  var tooltip = d3.select("#my_dataviz")
 	    .append("div")
 	    .style("opacity", 0.5)
@@ -296,8 +297,8 @@ function createScatterplot(pop_datayear ){
 		  .selectAll('circle')
 		  .data(pop_datayear)
 		  .enter().append("circle")
-		  .attr("cx",function(d) {return xScale(d.CBR);})
-		   .attr("cy",function(d) {return yScale(d.CDR);})
+		  .attr("cx",function(d) {return xScale(d.batch#);})
+		   .attr("cy",function(d) {return yScale(d.loss);})
 		   .attr("r",4)
 	           .append("title")
 	           .text(d => d.Location)
@@ -308,12 +309,12 @@ function createScatterplot(pop_datayear ){
 	
 function updateContour(pop_datayear, speed){
 	var width = 300, height = 300;
-	var xScale=d3.scaleLinear().domain([0,50]).range([0,width]);
-	var yScale=d3.scaleLinear().domain([0,25]).range([height,0]);
-	var color = d3.scaleSequential(d3.interpolateTurbo).domain([0.000, 0.017]); 
+	var xScale=d3.scaleLinear().domain([0,67]).range([0,width]);
+	var yScale=d3.scaleLinear().domain([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]).range([height,0]);
+	var color = d3.scaleSequential(d3.interpolateTurbo).domain([0.000, 1.0]); 
 	  var contours = d3.contourDensity()
-	   .x(function(d,i){return xScale(d.CBR);})
-	  .y(function(d,i){return yScale(d.CDR);})
+	   .x(function(d,i){return xScale(d.batch#);})
+	  .y(function(d,i){return yScale(d.loss);})
 	 .size([width,height])
 	.bandwidth(20)
 	  (pop_datayear);
@@ -347,14 +348,14 @@ function updateContour(pop_datayear, speed){
 	
 	function createContour(pop_datayear){
 	var width = 300, height = 300;
-	var xScale=d3.scaleLinear().domain([0,50]).range([0,width]);
-	var yScale=d3.scaleLinear().domain([0,25]).range([height,0]);
-	var color = d3.scaleSequential(d3.interpolateTurbo).domain([0.000, 0.017]); 
+	var xScale=d3.scaleLinear().domain([0,67]).range([0,width]);
+	var yScale=d3.scaleLinear().domain([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]).range([height,0]);
+	var color = d3.scaleSequential(d3.interpolateTurbo).domain([0.000, 1.0]); 
 	  var contours = d3.contourDensity()
-	   .x(function(d,i){return xScale(d.CBR);})
-	  .y(function(d,i){return yScale(d.CDR);})
-	 .size([width,height])
-	.bandwidth(20)
+	   .x(function(d,i){return xScale(d.batch#);})
+	   .y(function(d,i){return yScale(d.loss);})
+	   .size([width,height])
+	   .bandwidth(20)
 	  (pop_datayear);
 	
 	
@@ -377,11 +378,10 @@ function update_axis(){
 	
         var canvas_width = 400, canvas_height = 400;        
 	var width = canvas_height - 100,height=canvas_height -100, margin = 50;
-	var xScale=d3.scaleLinear().domain([0,50]).range([0,width]);
-	var yScale=d3.scaleLinear().domain([0,25]).range([height,0]);
-	var x_axis=d3.axisBottom(xScale).tickValues([10,20,30,40]).tickFormat(d3.format(".0f"));
-	var y_axis=d3.axisLeft(yScale).tickValues([5,10,15,20]).tickFormat(d3.format(".0f"));
-
+	var xScale=d3.scaleLinear().domain([0,67]).range([0,width]);
+	var yScale=d3.scaleLinear().domain([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]).range([height,0]);
+	var x_axis=d3.axisBottom(xScale).tickValues([10,20,30,40,50,60,70]).tickFormat(d3.format(".0f"));
+	var y_axis=d3.axisLeft(yScale).tickValues([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]).tickFormat(d3.format(".0f"));	  
 	  // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
 	  // Its opacity is set to 0: we don't see it by default.
 	
@@ -390,13 +390,13 @@ function update_axis(){
            .attr('y', margin / 2.4)
            .attr('transform', 'rotate(-90)')
            .attr('text-anchor', 'middle')
-           .text('Death Rate');
+           .text('Loss');
 
 	d3.select("#chart").select("svg").append('text')
 	    .attr('x', width / 2 + margin)
 	    .attr('y', height+margin+margin)
 	    .attr('text-anchor', 'middle')
-	    .text('Birth Rate');
+	    .text('Epoc#');
 	
 	var g = d3.select("#chart").select("svg").append("g");
 	    g.attr("transform","translate(50,50)").call(y_axis);
@@ -410,9 +410,9 @@ function update_axis(){
 	  .append("line")
 	  .attr("style", "stroke:black")
 	  .attr("x2", xScale(0))
-	  .attr("x1", xScale(25))
+	  .attr("x1", xScale(67))
 	  .attr("y2", yScale(0))
-	  .attr("y1", yScale(25))
+	  .attr("y1", yScale(2.0))
 	  .attr("stroke-width", 3);
 	
 }
@@ -426,11 +426,11 @@ function tooltip_available(){
             	.style("background-color", "white");})
 }
 function load_data(){
-	var xScale=d3.scaleLinear().domain([0,50]).range([0,300]);
-	var yScale=d3.scaleLinear().domain([0,25]).range([300,0]);
+	var xScale=d3.scaleLinear().domain([0,67]).range([0,300]);
+	var yScale=d3.scaleLinear().domain([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]).range([300,0]);
 	d3.select("#chart").select("svg").append('text')
-	    .attr('x', xScale(25))
-	    .attr('y', 50)
+	    .attr('x', xScale(67))
+	    .attr('y', 2.0)
 	    .attr('transform', 'rotate(10)')
 	    .attr('text-anchor', 'begin')
             .attr("font-size",8)
@@ -460,16 +460,16 @@ function load_data(){
 					     
 function init_helper(){	
 	//console.log(pop_data2018);
-	var xScale=d3.scaleLinear().domain([0,50]).range([0,300]);
-	var yScale=d3.scaleLinear().domain([0,25]).range([300,0]);
+	var xScale=d3.scaleLinear().domain([0,67]).range([0,300]);
+	var yScale=d3.scaleLinear().domain([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0]).range([300,0]);
 
 	var canvas_width = 400, canvas_height = 400;
 	var svg = d3.select(chart).append("svg")
         	    .attr("width", canvas_width )
 	            .attr("height", canvas_height );
 	d3.select("#chart").select("svg").append('text')
-	    .attr('x', xScale(25))
-	    .attr('y', 50)
+	    .attr('x', xScale(67))
+	    .attr('y', 2.0)
 	    .attr('transform', 'rotate(10)')
 	    .attr('text-anchor', 'begin')
             .attr("font-size",8)
