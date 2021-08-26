@@ -200,7 +200,7 @@ var data_preprocessed_2013 = null;
 var data_preprocessed_2018 = null;
 async function init(){
 	const pop_data = await d3.csv('WPP2019_Period_Indicators_Medium.csv');
-	data_preprocessed_1998 = pop_data
+	data_preprocessed = pop_data
 	data_preprocessed_1998 = data_preprocessed.filter(function(d){
 				          if(d["epoc"]=="0"){
         					return d;
